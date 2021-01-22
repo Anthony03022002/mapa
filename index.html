@@ -1,0 +1,74 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+	
+	<title>Mi mapa</title>
+
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	
+	<link rel="shortcut icon" type="image/x-icon" href="docs/images/favicon.ico" />
+
+	<link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" 
+	integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A==" crossorigin=""/>
+	<script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js" 
+	integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA==" crossorigin=""></script>
+
+
+	
+</head>
+<body>
+    <center>
+        <h1>Bienvenido a mi ubicación</h1>
+    </center>
+
+
+<div id="mapid" style="width: 600px; height: 400px; left: 315px;"></div>
+<script>
+
+	var mimapa = L.map('mapid').setView([-0.3169842, -78.5484407], 15);
+
+	L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw', {
+		maxZoom: 20,
+		attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">Sitio del mapa</a> contributors, ' + 
+		'Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+		id: 'mapbox/streets-v11',
+		tileSize: 512,
+		zoomOffset: -1
+	}).addTo(mimapa);
+
+	L.marker([-0.3169842, -78.5484407]).addTo(mimapa)
+		.bindPopup("<b>!Hola¡</b><br />Bienvenido a mi zona.").openPopup();
+	
+
+	L.circle([-0.3166016,-78.5468944], 200, {
+		color: 'green',
+		fillColor: 'black',
+		fillOpacity: 0.5
+	}).addTo(mimapa).bindPopup("Este es mi circulo.");
+
+	L.polygon([
+		[-0.315919, -78.546850],
+		[-0.317614, -78.547311],
+		[-0.316767, -78.546067]
+	]).addTo(mimapa).bindPopup("Este es mi poligono");
+
+
+	var popup = L.popup();
+
+	function onMapClick(e) {
+		popup
+			.setLatLng(e.latlng)
+			.setContent("Las coordenadas son " + e.latlng.toString())
+			.openOn(mimapa);
+	}
+
+	mimapa.on('click', onMapClick);
+
+</script>
+
+
+
+</body>
+</html>
